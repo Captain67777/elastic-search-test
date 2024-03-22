@@ -1,0 +1,38 @@
+=== elastic search 7.13.1 get started
+
+-- ES compliancy
+
+(??) ES 7.13.1 -> Spring Data Elasticsearch 4.2.x -> Spring 5.3.x -> Spring Boot 2.5. (-> Java 8-18) -> Java 15 -> Grade 7.6.4
+
+(??) ES 8.12.2 -> Spring Data Elasticsearch 5.2.x -> Spring 6.1.x -> Spring Boot 2.5. (-> Java 8-18) -> Java 15 -> Grade 7.6.4
+
+-- install ES in docker container
+https://www.elastic.co/guide/en/elasticsearch/reference/7.13/docker.html
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+
+---- only needed when container runs on Docker Desktop with WSL2 backend
+(localhost) wsl -d docker-desktop -u root # needed for every docker es container restart
+(container) sysctl -w vm.max_map_count=262144; exit # needed for every docker es container restart
+(localhost, 1e keer) docker run --name ES.7.13.1 --memory=4g -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+(local host, restart): docker start -ai ES.7.13.1
+
+(ssl not enabled by default)
+
+------- needed for ES version 8.12.2
+
+-- disable security and ssl for es (on running es container)
+(localhost) docker exec -it --user root es01 /bin/bash
+(container) vi /usr/share/elasticsearch/config/elasticsearch.yml, (set xpack.security.http.ssl.enable=false and xpack.security.enabled=false), exit
+(localhost) restart es container
+
+-- only for remembering?
+(in container) export ELASTIC_PASSWORD="V1*bYNw+gDC6bLhuE2wr"
+
+-- copy certificate
+
+(localhost) docker cp es01:/usr/share/elasticsearch/config/certs/http_ca.crt .
+
+
+-- credentials notified on first es start
+
+..

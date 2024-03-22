@@ -1,0 +1,27 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "number": {
+      "type": "text"
+    },
+    "name": {
+      "type": "text"
+    },
+    "created": {
+      "type": "date"
+    },
+    "drivers": {
+      "type": "nested",
+      "properties": {
+        "first_name": {
+          "type": "text"
+        },
+        "last_name": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
